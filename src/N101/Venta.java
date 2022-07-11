@@ -23,22 +23,22 @@ import java.util.ArrayList;
 public class Venta {
 
 	// Attributes
-	ArrayList<Producto> productos;
-	float precioTotal;
+	private ArrayList<Producto> productosVenta;
+	private float precioTotal;
 
 	// Constructor
 	public Venta() {
-		this.productos = new ArrayList<Producto>();
+		this.productosVenta = new ArrayList<Producto>();
 		this.precioTotal = 0;
 	}
 
 	// setters/getters
-	public ArrayList<Producto> getProductos() {
-		return productos;
+	public ArrayList<Producto> getProductosVenta() {
+		return productosVenta;
 	}
 
-	public void setProductos(ArrayList<Producto> productos) {
-		this.productos = productos;
+	public void setProductos(ArrayList<Producto> productosVenta) {
+		this.productosVenta = productosVenta;
 	}
 
 	public float getPrecioTotal() {
@@ -50,11 +50,34 @@ public class Venta {
 	}
 
 	// General Methods
-	public float precioTotal() {
+	public float calcularTotal() throws Venta_Vacia_Exception {
 		float precioTotal = 0f;
-		for (int i = 0; i < this.productos.size(); i++) {
-			precioTotal += this.productos.get(i).getPrecio();
+		if (this.productosVenta.size() == 0) {
+			Venta_Vacia_Exception e = new Venta_Vacia_Exception(
+					"Para hacer una venta, primero has de añadir productos");
+			throw e;
+		} else {
+			for (int i = 0; i < this.productosVenta.size(); i++) {
+				precioTotal += this.productosVenta.get(i).getPrecio();
+			}
+			return precioTotal;
 		}
-		return precioTotal;
+	}
+	public int buscarProductoVenta(String nombre) {
+		int posArr = 0;
+		boolean stop = false;
+		if (this.productosVenta.size() != 0) {
+			for (int i = 0; i < this.productosVenta.size() && stop == false; i++) {
+				if (this.productosVenta.get(i).getNombre().equalsIgnoreCase(nombre)) {
+					posArr = i;
+					stop = true;
+				} else {
+					posArr = -1;
+				}
+			}
+		} else {
+			posArr = -2;
+		}
+		return posArr;
 	}
 }

@@ -33,7 +33,7 @@ public class Main {
 		String mensaje = "";
 		int opcion = 0;
 
-		// Dialogo
+		// Dialog
 		do {
 			System.out.println("Indique que desa hacer. \n" + "0. Salir del programa. \n" + "1. Crear un producto. \n"
 					+ "2. Eliminar un producto. \n" + "3. Crear una venta. \n" + "4. Caluclar precio de venta. \n");
@@ -63,7 +63,7 @@ public class Main {
 		} while (opcion != 0);
 	}
 
-	// Metodos
+	// Methods
 	public static String crearProducto() {
 		String mensaje = "";
 		String nombre = "";
@@ -120,7 +120,7 @@ public class Main {
 						mensaje = "No se ha encontrado ningún producto con ese nombre en el sistema.";
 					} else {
 						productoEnc = productos.get(posArr);
-						venta.getProductos().add(productoEnc);
+						venta.getProductosVenta().add(productoEnc);
 						mensaje = "Se ha añadido el producto " + productoEnc.getNombre() + " a la venta.";
 					}
 				}
@@ -141,19 +141,23 @@ public class Main {
 				+ "A continuación podrá ver las ventas con los productos asociados");
 		if (ventas.size() != 0) {
 			for (int i = 0; i < ventas.size(); i++) {
-				System.out.println("venta 1: " + ventas.get(i).getProductos());
+				System.out.println("venta 1: " + ventas.get(i).getProductosVenta());
 			}
 			System.out.println("Indique el número de la venta de la que quiere calcular el precio.");
 			ventaNum = entrada.nextInt();
-			venta = ventas.get(ventaNum - 1).precioTotal();
-			mensaje = "El precio total de la venta es de " + venta + " euros.";
+			try {
+				venta = ventas.get(ventaNum - 1).calcularTotal();
+				mensaje = "El precio total de la venta es de " + venta + " euros.";
+			} catch (Venta_Vacia_Exception e) {
+				mensaje = e.getMessage();
+			}
 		} else {
 			System.out.println("no hay ventas creadas en el sistema");
 		}
 		return mensaje;
 	}
 
-	// Metodos auxiliares
+	// Assistant methods
 	public static int buscarProducto(String nombre) {
 		int posArr = 0;
 		boolean stop = false;

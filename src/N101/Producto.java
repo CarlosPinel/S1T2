@@ -19,8 +19,8 @@ package N101;
 public class Producto {
 
 	//Attributes
-	String nombre;
-	float precio;
+	private String nombre;
+	private float precio;
 	
 	//Constructor
 	public Producto() {};
